@@ -1,6 +1,6 @@
-package ru.job4j.candidate.store;
+package ru.job4j.dreamjob.store;
 
-import ru.job4j.candidate.model.Candidate;
+import ru.job4j.dreamjob.model.Candidate;
 
 import java.time.LocalDate;
 import java.util.Collection;

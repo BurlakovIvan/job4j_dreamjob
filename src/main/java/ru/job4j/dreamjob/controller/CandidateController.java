@@ -1,9 +1,9 @@
-package ru.job4j.candidate.control;
+package ru.job4j.dreamjob.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.job4j.candidate.store.CandidateStore;
+import ru.job4j.dreamjob.store.CandidateStore;
 
 @Controller
 public class CandidateController {
