@@ -6,16 +6,20 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CandidateStore {
     private static final CandidateStore INST = new CandidateStore();
-
+    private final AtomicInteger atomicInteger = new AtomicInteger(0);
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
     private CandidateStore() {
-        candidates.put(1, new Candidate(1, "Junior", "Junior Java Developer", LocalDate.now()));
-        candidates.put(2, new Candidate(2, "Middle", "Middle Java Developer", LocalDate.now()));
-        candidates.put(3, new Candidate(3, "Senior", "Senior Java Developer", LocalDate.now()));
+        candidates.put(atomicInteger.incrementAndGet(),
+                new Candidate(1, "Junior", "Junior Java Developer", LocalDate.now()));
+        candidates.put(atomicInteger.incrementAndGet(),
+                new Candidate(2, "Middle", "Middle Java Developer", LocalDate.now()));
+        candidates.put(atomicInteger.incrementAndGet(),
+                new Candidate(3, "Senior", "Senior Java Developer", LocalDate.now()));
     }
 
     public void update(Candidate candidate) {
@@ -28,6 +32,7 @@ public class CandidateStore {
     }
 
     public void add(Candidate candidate) {
+        candidate.setId(atomicInteger.incrementAndGet());
         candidates.putIfAbsent(candidate.getId(), candidate);
     }
 

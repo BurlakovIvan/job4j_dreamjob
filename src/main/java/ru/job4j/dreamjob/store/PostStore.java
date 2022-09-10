@@ -7,17 +7,21 @@ import java.util.Collection;
 import java.util.Map;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PostStore {
 
     private static final PostStore INST = new PostStore();
-
+    private final AtomicInteger atomicInteger = new AtomicInteger(0);
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
     private PostStore() {
-        posts.put(1, new Post(1, "Junior", "Junior Java Job", LocalDate.now()));
-        posts.put(2, new Post(2, "Middle", "Middle Java Job", LocalDate.now()));
-        posts.put(3, new Post(3, "Senior", "Senior Java Job", LocalDate.now()));
+        posts.put(atomicInteger.incrementAndGet(),
+                new Post(1, "Junior", "Junior Java Job", LocalDate.now()));
+        posts.put(atomicInteger.incrementAndGet(),
+                new Post(2, "Middle", "Middle Java Job", LocalDate.now()));
+        posts.put(atomicInteger.incrementAndGet(),
+                new Post(3, "Senior", "Senior Java Job", LocalDate.now()));
     }
 
     public static PostStore instOf() {
@@ -25,6 +29,7 @@ public class PostStore {
     }
 
     public void add(Post post) {
+        post.setId(atomicInteger.incrementAndGet());
         posts.putIfAbsent(post.getId(), post);
     }
 
