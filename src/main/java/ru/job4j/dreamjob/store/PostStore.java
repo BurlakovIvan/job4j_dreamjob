@@ -28,6 +28,19 @@ public class PostStore {
         posts.putIfAbsent(post.getId(), post);
     }
 
+    public void update(Post post) {
+        posts.computeIfPresent(post.getId(), (key, value) -> {
+            value.setCreated(LocalDate.now());
+            value.setDescription(post.getDescription());
+            value.setName(post.getName());
+            return value;
+        });
+    }
+
+    public Post findById(int id) {
+        return posts.get(id);
+    }
+
     public Collection<Post> findAll() {
         return posts.values();
     }
