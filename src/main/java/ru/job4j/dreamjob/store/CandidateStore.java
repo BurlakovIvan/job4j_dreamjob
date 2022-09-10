@@ -18,6 +18,23 @@ public class CandidateStore {
         candidates.put(3, new Candidate(3, "Senior", "Senior Java Developer", LocalDate.now()));
     }
 
+    public void update(Candidate candidate) {
+        candidates.computeIfPresent(candidate.getId(), (key, value) -> {
+            value.setCreated(LocalDate.now());
+            value.setDesc(candidate.getDesc());
+            value.setName(candidate.getName());
+            return value;
+        });
+    }
+
+    public void add(Candidate candidate) {
+        candidates.putIfAbsent(candidate.getId(), candidate);
+    }
+
+    public Candidate findById(int id) {
+        return candidates.get(id);
+    }
+
     public static CandidateStore instOf() {
         return INST;
     }

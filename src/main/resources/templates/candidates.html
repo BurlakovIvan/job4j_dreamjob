@@ -1,7 +1,6 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -14,7 +13,7 @@
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Работа мечты!</title>
 </head>
 <body>
@@ -44,10 +43,15 @@
             </thead>
             <tbody>
             <tr th:each="candidate: ${candidates}">
-                <td th:text="${candidate.id}" />
+                <td th:text="${candidate.id}"></td>
+                <td>
+                    <a th:href="@{|/formUpdateCandidate/${candidate.id}|}">
+                        <i class="fa fa-edit"></i>
+                    </a>
                 <td th:text="${candidate.name}" />
                 <td th:text="${candidate.desc}" />
                 <td th:text="${candidate.created}" />
+                </td>
             </tr>
             </tbody>
         </table>
