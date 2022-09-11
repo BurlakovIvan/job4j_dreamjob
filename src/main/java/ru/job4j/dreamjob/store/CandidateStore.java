@@ -25,12 +25,8 @@ public class CandidateStore {
     }
 
     public void update(Candidate candidate) {
-        candidates.computeIfPresent(candidate.getId(), (key, value) -> {
-            value.setCreated(LocalDate.now());
-            value.setDesc(candidate.getDesc());
-            value.setName(candidate.getName());
-            return value;
-        });
+        candidate.setCreated(LocalDate.now());
+        candidates.replace(candidate.getId(), candidate);
     }
 
     public void add(Candidate candidate) {

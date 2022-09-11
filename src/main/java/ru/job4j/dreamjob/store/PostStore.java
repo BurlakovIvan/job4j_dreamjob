@@ -36,12 +36,8 @@ public class PostStore {
     }
 
     public void update(Post post) {
-        posts.computeIfPresent(post.getId(), (key, value) -> {
-            value.setCreated(LocalDate.now());
-            value.setDescription(post.getDescription());
-            value.setName(post.getName());
-            return value;
-        });
+        post.setCreated(LocalDate.now());
+        posts.replace(post.getId(), post);
     }
 
     public Post findById(int id) {
