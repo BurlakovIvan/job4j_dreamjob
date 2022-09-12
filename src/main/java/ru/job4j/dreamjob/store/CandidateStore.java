@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 public class CandidateStore {
     private static final CandidateStore INST = new CandidateStore();
-    private final AtomicInteger atomicInteger = new AtomicInteger(0);
+    private final AtomicInteger atomicInteger = new AtomicInteger(4);
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
     private CandidateStore() {
