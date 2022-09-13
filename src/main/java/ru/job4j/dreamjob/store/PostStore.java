@@ -3,6 +3,7 @@ package ru.job4j.dreamjob.store;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Post;
+import ru.job4j.dreamjob.service.CityService;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -18,22 +19,26 @@ public class PostStore {
     private final AtomicInteger atomicInteger = new AtomicInteger(4);
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
+    private final CityService cityService = new CityService();
+
     private PostStore() {
         int id = atomicInteger.incrementAndGet();
-        posts.put(id, new Post(id, "Junior", "Junior Java Job", LocalDate.now()));
+        posts.put(id, new Post(id, "Junior", "Junior Java Job", LocalDate.now(), null));
         id = atomicInteger.incrementAndGet();
-        posts.put(id, new Post(id, "Middle", "Middle Java Job", LocalDate.now()));
+        posts.put(id, new Post(id, "Middle", "Middle Java Job", LocalDate.now(), null));
         id = atomicInteger.incrementAndGet();
-        posts.put(id, new Post(id, "Senior", "Senior Java Job", LocalDate.now()));
+        posts.put(id, new Post(id, "Senior", "Senior Java Job", LocalDate.now(), null));
     }
 
     public void add(Post post) {
         post.setId(atomicInteger.incrementAndGet());
+        post.setCity(cityService.findById(post.getCity().getId()));
         posts.putIfAbsent(post.getId(), post);
     }
 
     public void update(Post post) {
         post.setCreated(LocalDate.now());
+        post.setCity(cityService.findById(post.getCity().getId()));
         posts.replace(post.getId(), post);
     }
 

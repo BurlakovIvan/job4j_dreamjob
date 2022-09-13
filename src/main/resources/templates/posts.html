@@ -52,6 +52,7 @@
                     <td th:text="${post.name}" />
                     <td th:text="${post.description}" />
                     <td th:text="${post.created}" />
+                    <td th:text="${post.city != null} ? ${post.city.name} : 'null value!'" />
                     <td th:if="${post.visible}">
                         <i class="fa fa-check-square-o"></i>
                     </td>
