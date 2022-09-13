@@ -15,8 +15,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ThreadSafe
 public class PostStore {
 
-    private static final PostStore INST = new PostStore();
-
     private final AtomicInteger atomicInteger = new AtomicInteger(4);
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
@@ -27,10 +25,6 @@ public class PostStore {
         posts.put(id, new Post(id, "Middle", "Middle Java Job", LocalDate.now()));
         id = atomicInteger.incrementAndGet();
         posts.put(id, new Post(id, "Senior", "Senior Java Job", LocalDate.now()));
-    }
-
-    public static PostStore instOf() {
-        return INST;
     }
 
     public void add(Post post) {
