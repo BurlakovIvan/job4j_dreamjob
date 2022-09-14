@@ -32,13 +32,11 @@ public class PostStore {
 
     public void add(Post post) {
         post.setId(atomicInteger.incrementAndGet());
-        post.setCity(cityService.findById(post.getCity().getId()));
         posts.putIfAbsent(post.getId(), post);
     }
 
     public void update(Post post) {
         post.setCreated(LocalDate.now());
-        post.setCity(cityService.findById(post.getCity().getId()));
         posts.replace(post.getId(), post);
     }
 
