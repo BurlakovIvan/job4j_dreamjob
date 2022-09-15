@@ -19,8 +19,6 @@ public class PostStore {
     private final AtomicInteger atomicInteger = new AtomicInteger(4);
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
-    private final CityService cityService = new CityService();
-
     private PostStore() {
         int id = atomicInteger.incrementAndGet();
         posts.put(id, new Post(id, "Junior", "Junior Java Job", LocalDate.now(), null));
