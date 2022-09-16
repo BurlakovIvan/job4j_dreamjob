@@ -3,9 +3,8 @@ package ru.job4j.dreamjob.store;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Post;
-import ru.job4j.dreamjob.service.CityService;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 
@@ -21,11 +20,11 @@ public class PostStore {
 
     private PostStore() {
         int id = atomicInteger.incrementAndGet();
-        posts.put(id, new Post(id, "Junior", "Junior Java Job", LocalDate.now(), null));
+        posts.put(id, new Post(id, "Junior", "Junior Java Job", LocalDateTime.now(), false, null));
         id = atomicInteger.incrementAndGet();
-        posts.put(id, new Post(id, "Middle", "Middle Java Job", LocalDate.now(), null));
+        posts.put(id, new Post(id, "Middle", "Middle Java Job", LocalDateTime.now(), false, null));
         id = atomicInteger.incrementAndGet();
-        posts.put(id, new Post(id, "Senior", "Senior Java Job", LocalDate.now(), null));
+        posts.put(id, new Post(id, "Senior", "Senior Java Job", LocalDateTime.now(), false, null));
     }
 
     public void add(Post post) {
@@ -34,7 +33,7 @@ public class PostStore {
     }
 
     public void update(Post post) {
-        post.setCreated(LocalDate.now());
+        post.setCreated(LocalDateTime.now());
         posts.replace(post.getId(), post);
     }
 
