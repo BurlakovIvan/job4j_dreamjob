@@ -18,8 +18,12 @@ public class UserDbStore {
     private final BasicDataSource pool;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDbStore.class.getName());
     private final static String SELECT = "SELECT * FROM users";
-    private final static String SELECT_WITH_WHERE = String.format("%s WHERE id = ?", SELECT);
-    private final static String INSERT = "INSERT INTO users(name) VALUES (?)";
+    private final static String SELECT_ID = String.format("%s WHERE id = ?", SELECT);
+    private final static String SELECT_EMAIL_PASSWORD = String.format("%s WHERE email = ? AND password = ?", SELECT);
+    private final static String INSERT = """
+                                         INSERT INTO users(name, email, password)
+                                         VALUES (?, ?, ?)
+                                         """;
 
     public UserDbStore(BasicDataSource pool) {
         this.pool = pool;
@@ -47,6 +51,8 @@ public class UserDbStore {
              PreparedStatement ps = cn.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
             ps.execute();
             try (ResultSet resultSet = ps.getGeneratedKeys()) {
                 if (resultSet.next()) {
@@ -60,25 +66,46 @@ public class UserDbStore {
         return rsl;
     }
 
-    public User findById(int id) {
+    public Optional<User> findById(int id) {
+        Optional<User> rsl = Optional.empty();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement(SELECT_WITH_WHERE)
+             PreparedStatement ps =  cn.prepareStatement(SELECT_ID)
         ) {
             ps.setInt(1, id);
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
-                    return newUser(resultSet);
+                    rsl = Optional.of(newUser(resultSet));
                 }
             }
         } catch (Exception ex) {
             LOGGER.error("ERROR: ", ex);
         }
-        return null;
+        return rsl;
+    }
+
+    public Optional<User> findUserByEmailAndPwd(String email, String password) {
+        Optional<User> rsl = Optional.empty();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(SELECT_EMAIL_PASSWORD)
+        ) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    rsl = Optional.of(newUser(resultSet));
+                }
+            }
+        } catch (Exception ex) {
+            LOGGER.error("ERROR: ", ex);
+        }
+        return rsl;
     }
 
     private User newUser(ResultSet resultSet) throws SQLException {
         return new User(
                 resultSet.getInt("id"),
-                resultSet.getString("name"));
+                resultSet.getString("name"),
+                resultSet.getString("email"),
+                resultSet.getString("password"));
     }
 }

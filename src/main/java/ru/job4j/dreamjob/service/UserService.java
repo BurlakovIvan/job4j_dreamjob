@@ -22,6 +22,14 @@ public class UserService {
         return new ArrayList<>(store.findAll());
     }
 
+    public Optional<User> findUserByEmailAndPwd(String email, String password) {
+        return store.findUserByEmailAndPwd(email, password);
+    }
+
+    public Optional<User> findById(int id) {
+        return store.findById(id);
+    }
+
     public Optional<User> add(User user) {
         return store.add(user);
     }

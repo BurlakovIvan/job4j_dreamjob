@@ -14,60 +14,35 @@
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
     <title>Работа мечты!</title>
 </head>
 <body>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Dream Job</a>
+        <a class="navbar-brand" th:href="@{/index}">Dream Job</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="#">Главная <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" th:href="@{/index}">Главная <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" th:href="@{/posts}">Вакансии</a>
                 <a class="nav-item nav-link" th:href="@{/formAddPost}">Добавить вакансию</a>
                 <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
                 <a class="nav-item nav-link" th:href="@{/formAddCandidate}">Добавить кандидата</a>
                 <a class="nav-item nav-link" th:href="@{/users}">Пользователи</a>
                 <a class="nav-item nav-link" th:href="@{/formAddUser}">Добавить пользователя</a>
+                <a class="nav-item nav-link" th:href="@{/loginPage}">Войти</a>
             </div>
         </div>
     </nav>
-    <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
 </div>
+<h1 align="center">Работа мечты</h1>
+<p class="text-center">В системе две модели: вакансии и кандидаты</p>
+<p class="text-center"><strong>Кандитаты</strong></p>
+<p class="text-center">Кандидаты публикуют свои резюме и могут откликнуться на вакансию</p>
+<p class="text-center"><strong>Вакансии</strong></p>
+<p class="text-center">Кадровики публикуют вакансии о работе и могут пригласить на вакансию кандидата</p>
+</body>
 </body>
 </html>
