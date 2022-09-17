@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 @Controller
 @ThreadSafe
@@ -35,8 +34,7 @@ public class CandidateController {
     @GetMapping("/formAddCandidate")
     public String addCandidate(Model model) {
         model.addAttribute("candidate",
-                new Candidate(0, "Заполните ФИО", "Заполните описание",
-                        LocalDateTime.now(), null));
+                new Candidate(0, "Заполните ФИО", "Заполните описание", null));
         return "addCandidate";
     }
 
@@ -58,7 +56,6 @@ public class CandidateController {
     public String createCandidate(@ModelAttribute Candidate candidate,
                                   @RequestParam("file") MultipartFile file) throws IOException {
         candidate.setPhoto(file.getBytes());
-        candidate.setCreated(LocalDateTime.now());
         candidateService.add(candidate);
         return "redirect:/candidates";
     }

@@ -8,8 +8,6 @@ import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.service.CityService;
 import ru.job4j.dreamjob.service.PostService;
 
-import java.time.LocalDateTime;
-
 @Controller
 @ThreadSafe
 public class PostController {
@@ -30,14 +28,14 @@ public class PostController {
 
     @GetMapping("/formAddPost")
     public String addPost(Model model) {
-        model.addAttribute("post", new Post(0, "Заполните поле", "Заполните описание", false, null));
+        model.addAttribute("post", new Post(0, "Заполните поле",
+                "Заполните описание", false, null));
         model.addAttribute("cities", cityService.getAllCities());
         return "addPost";
     }
 
     @PostMapping("/createPost")
     public String createPost(@ModelAttribute Post post, @RequestParam("city.id") int id) {
-        post.setCreated(LocalDateTime.now());
         post.setCity(cityService.findById(id));
         postService.add(post);
         return "redirect:/posts";

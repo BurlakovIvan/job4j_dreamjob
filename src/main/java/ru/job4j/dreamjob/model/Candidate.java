@@ -15,6 +15,10 @@ public class Candidate {
 
     public Candidate() { }
 
+    public Candidate(int id, String name, String desc, byte[] photo) {
+        this(id, name, desc, LocalDateTime.now(), photo);
+    }
+
     public Candidate(int id, String name, String desc, LocalDateTime created, byte[] photo) {
         this.id = id;
         this.name = name;

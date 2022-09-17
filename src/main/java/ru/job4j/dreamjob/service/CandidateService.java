@@ -30,6 +30,10 @@ public class CandidateService {
     }
 
     public void update(Candidate candidate) {
-        store.update(candidate);
+        if (candidate.getPhoto().length > 0) {
+            store.updateWithPhoto(candidate);
+        } else {
+            store.updateWithoutPhoto(candidate);
+        }
     }
 }
