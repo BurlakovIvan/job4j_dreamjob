@@ -17,7 +17,7 @@ import java.util.List;
 public class CandidateDbStore {
 
     private final BasicDataSource pool;
-    private static final Logger LOGGER = LoggerFactory.getLogger(PostDbStore.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(CandidateDbStore.class.getName());
     private final static String SELECT = "SELECT * FROM candidate";
     private final static String SELECT_WITH_WHERE = String.format("%s WHERE id = ?", SELECT);
     private final static String UPDATE = "UPDATE candidate SET name = ?, description = ?%s WHERE id = ?";
