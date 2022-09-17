@@ -20,11 +20,11 @@ public class PostStore {
 
     private PostStore() {
         int id = atomicInteger.incrementAndGet();
-        posts.put(id, new Post(id, "Junior", "Junior Java Job", LocalDateTime.now(), false, null));
+        posts.put(id, new Post(id, "Junior", "Junior Java Job", false, null));
         id = atomicInteger.incrementAndGet();
-        posts.put(id, new Post(id, "Middle", "Middle Java Job", LocalDateTime.now(), false, null));
+        posts.put(id, new Post(id, "Middle", "Middle Java Job", false, null));
         id = atomicInteger.incrementAndGet();
-        posts.put(id, new Post(id, "Senior", "Senior Java Job", LocalDateTime.now(), false, null));
+        posts.put(id, new Post(id, "Senior", "Senior Java Job", false, null));
     }
 
     public void add(Post post) {

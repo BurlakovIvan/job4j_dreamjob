@@ -19,6 +19,16 @@ public class PostDbStore {
 
     private final BasicDataSource pool;
     private static final Logger LOGGER = LoggerFactory.getLogger(PostDbStore.class.getName());
+    private static final String INSERT = """
+                                          INSERT INTO post(name, description, created, visible, city_id)
+                                          VALUES (?, ?, ?, ?, ?)
+                                          """;
+    private static final String UPDATE = """
+                                         UPDATE post SET name = ?, description = ?, visible = ?,
+                                         city_id = ? WHERE id = ?
+                                         """;
+    private static final String SELECT = "SELECT * FROM post";
+    private static final String SELECT_WITH_WHERE = String.format("%s WHERE id = ?", SELECT);
 
     public PostDbStore(BasicDataSource pool) {
         this.pool = pool;
@@ -27,17 +37,11 @@ public class PostDbStore {
     public List<Post> findAll() {
         List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post")
+             PreparedStatement ps =  cn.prepareStatement(SELECT)
         ) {
-            try (ResultSet it = ps.executeQuery()) {
-                while (it.next()) {
-                    posts.add(new Post(
-                            it.getInt("id"),
-                            it.getString("name"),
-                            it.getString("description"),
-                            it.getTimestamp("created").toLocalDateTime(),
-                            it.getBoolean("visible"),
-                            new City(it.getInt("city_id"), "")));
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    posts.add(newPost(resultSet));
                 }
             }
         } catch (Exception e) {
@@ -48,21 +52,17 @@ public class PostDbStore {
 
     public void add(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement(
-                     "INSERT INTO post(name, description, created, visible, city_id) VALUES (?, ?, ?, ?, ?)",
-                     PreparedStatement.RETURN_GENERATED_KEYS)
+             PreparedStatement ps = cn.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
-            LocalDateTime now = LocalDateTime.now();
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
-            ps.setTimestamp(3, Timestamp.valueOf(now));
+            ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
             ps.setBoolean(4, post.isVisible());
             ps.setInt(5, post.getCity().getId());
             ps.execute();
-            try (ResultSet id = ps.getGeneratedKeys()) {
-                if (id.next()) {
-                    post.setId(id.getInt(1));
-                    post.setCreated(now);
+            try (ResultSet resultSet = ps.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    post.setId(resultSet.getInt(1));
                 }
             }
         } catch (Exception e) {
@@ -72,9 +72,7 @@ public class PostDbStore {
 
     public void update(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement(
-                     "update post SET name = ?, description = ?,"
-                             + "visible = ?, city_id = ? where id = ?")) {
+             PreparedStatement ps = cn.prepareStatement(UPDATE)) {
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
             ps.setBoolean(3, post.isVisible());
@@ -88,23 +86,27 @@ public class PostDbStore {
 
     public Post findById(int id) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post WHERE id = ?")
+             PreparedStatement ps =  cn.prepareStatement(SELECT_WITH_WHERE)
         ) {
             ps.setInt(1, id);
-            try (ResultSet it = ps.executeQuery()) {
-                if (it.next()) {
-                    return new Post(
-                            it.getInt("id"),
-                            it.getString("name"),
-                            it.getString("description"),
-                            it.getTimestamp("created").toLocalDateTime(),
-                            it.getBoolean("visible"),
-                            new City(it.getInt("city_id"), ""));
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    return newPost(resultSet);
                 }
             }
         } catch (Exception e) {
             LOGGER.error("ERROR: ", e);
         }
         return null;
+    }
+
+    private Post newPost(ResultSet resultSet) throws SQLException {
+        return new Post(
+                resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getString("description"),
+                resultSet.getTimestamp("created").toLocalDateTime(),
+                resultSet.getBoolean("visible"),
+                new City(resultSet.getInt("city_id"), ""));
     }
 }
