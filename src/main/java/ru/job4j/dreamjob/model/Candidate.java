@@ -11,19 +11,22 @@ public class Candidate {
 
     private LocalDateTime created;
 
+    private City city;
+
     private byte[] photo;
 
     public Candidate() { }
 
-    public Candidate(int id, String name, String desc, byte[] photo) {
-        this(id, name, desc, LocalDateTime.now(), photo);
+    public Candidate(int id, String name, String desc, City city, byte[] photo) {
+        this(id, name, desc, LocalDateTime.now(), city, photo);
     }
 
-    public Candidate(int id, String name, String desc, LocalDateTime created, byte[] photo) {
+    public Candidate(int id, String name, String desc, LocalDateTime created, City city, byte[] photo) {
         this.id = id;
         this.name = name;
         this.desc = desc;
         this.created = created;
+        this.city = city;
         this.photo = photo;
     }
 
@@ -67,6 +70,14 @@ public class Candidate {
         this.photo = photo;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -83,4 +94,5 @@ public class Candidate {
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }

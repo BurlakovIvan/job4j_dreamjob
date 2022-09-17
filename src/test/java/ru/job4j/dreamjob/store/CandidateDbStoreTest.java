@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.job4j.dreamjob.Main;
 import ru.job4j.dreamjob.model.Candidate;
+import ru.job4j.dreamjob.model.City;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +22,8 @@ public class CandidateDbStoreTest {
 
     @BeforeEach
     public void init() {
-        candidate = new Candidate(0, "Ivanov", "Programmer", new byte[]{21, 22, 23});
+        candidate = new Candidate(0, "Ivanov",
+                "Programmer", new City(1, "Москва"), new byte[]{21, 22, 23});
     }
 
     @Test
@@ -69,9 +71,12 @@ public class CandidateDbStoreTest {
 
     @Test
     public void whenFindAllPosts() {
-        Candidate candidate1 = new Candidate(0, "Junior", "Junior Java Developer", null);
-        Candidate candidate2 = new Candidate(1, "Middle", "Middle Java Developer", null);
-        Candidate candidate3 = new Candidate(2, "Senior", "Senior Java Developer", null);
+        Candidate candidate1 = new Candidate(0, "Junior",
+                "Junior Java Developer", new City(1, "Москва"), null);
+        Candidate candidate2 = new Candidate(1, "Middle",
+                "Middle Java Developer", new City(2, "Cанкт-Петербург"), null);
+        Candidate candidate3 = new Candidate(2, "Senior",
+                "Senior Java Developer", new City(3, "Екатеринбург"), null);
         STORE.add(candidate1);
         STORE.add(candidate2);
         STORE.add(candidate3);

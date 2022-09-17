@@ -41,11 +41,11 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Ред.</th>
-                <th scope="col">Название вакансии</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Дата создания</th>
-                <th scope="col">Город</th>
+                <th scope="col" class="text-center">Ред.</th>
+                <th scope="col" class="text-center">Название вакансии</th>
+                <th scope="col" class="text-center">Описание</th>
+                <th scope="col" class="text-center">Дата создания</th>
+                <th scope="col" class="text-center">Город</th>
                 <th scope="col">Опубликована</th>
             </tr>
             </thead>
@@ -56,10 +56,10 @@
                     <a th:href="@{|/formUpdatePost/${post.id}|}">
                         <i class="fa fa-edit"></i>
                     </a>
-                    <td th:text="${post.name}" />
-                    <td th:text="${post.description}" />
-                    <td th:text="${post.created}" />
-                    <td th:text="${post.city != null} ? ${post.city.name} : 'null value!'" />
+                    <td th:text="${post.name}" class="text-center"/>
+                    <td th:text="${post.description}" class="text-center"/>
+                    <td th:text="${#temporals.format(post.created, 'dd-MM-yyyy HH:mm')}" class="text-center"/>
+                    <td th:text="${post.city != null} ? ${post.city.name} : 'null value!'" class="text-center"/>
                     <td th:if="${post.visible}">
                         <i class="fa fa-check-square-o"></i>
                     </td>

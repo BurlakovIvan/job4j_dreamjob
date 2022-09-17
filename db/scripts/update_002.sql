@@ -3,5 +3,6 @@ CREATE TABLE if not exists candidate (
    name TEXT,
    description TEXT,
    created timestamp,
+   city_id INTEGER,
    photo bytea
 );

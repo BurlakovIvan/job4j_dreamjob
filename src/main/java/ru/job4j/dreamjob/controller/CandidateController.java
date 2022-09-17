@@ -12,6 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import ru.job4j.dreamjob.service.CityService;
 
 import java.io.IOException;
 
@@ -20,9 +21,11 @@ import java.io.IOException;
 public class CandidateController {
 
     private final CandidateService candidateService;
+    private final CityService cityService;
 
-    public CandidateController(CandidateService candidateService) {
+    public CandidateController(CandidateService candidateService, CityService cityService) {
         this.candidateService = candidateService;
+        this.cityService = cityService;
     }
 
     @GetMapping("/candidates")
@@ -34,27 +37,33 @@ public class CandidateController {
     @GetMapping("/formAddCandidate")
     public String addCandidate(Model model) {
         model.addAttribute("candidate",
-                new Candidate(0, "Заполните ФИО", "Заполните описание", null));
+                new Candidate(0, "Заполните ФИО", "Заполните описание", null, null));
+        model.addAttribute("cities", cityService.getAllCities());
         return "addCandidate";
     }
 
     @GetMapping("/formUpdateCandidate/{candidateId}")
     public String formUpdateCandidate(Model model, @PathVariable("candidateId") int id) {
         model.addAttribute("candidate", candidateService.findById(id));
+        model.addAttribute("cities", cityService.getAllCities());
         return "updateCandidate";
     }
 
     @PostMapping("/updateCandidate")
     public String updateCandidate(@ModelAttribute Candidate candidate,
-                                  @RequestParam("file") MultipartFile file) throws IOException {
+                                  @RequestParam("file") MultipartFile file,
+                                  @RequestParam("city.id") int id) throws IOException {
         candidate.setPhoto(file.getBytes());
+        candidate.setCity(cityService.findById(id));
         candidateService.update(candidate);
         return "redirect:/candidates";
     }
 
     @PostMapping("/createCandidate")
     public String createCandidate(@ModelAttribute Candidate candidate,
-                                  @RequestParam("file") MultipartFile file) throws IOException {
+                                  @RequestParam("file") MultipartFile file,
+                                  @RequestParam("city.id") int id) throws IOException {
+        candidate.setCity(cityService.findById(id));
         candidate.setPhoto(file.getBytes());
         candidateService.add(candidate);
         return "redirect:/candidates";

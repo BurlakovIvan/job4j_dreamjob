@@ -41,15 +41,15 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Пользователь</th>
-                <th scope="col">Электронная почта</th>
+                <th scope="col" class="text-center">Пользователь</th>
+                <th scope="col" class="text-center">Электронная почта</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="user: ${users}">
-                <td th:text="${user.id}"></td>
-                <td th:text="${user.name}"></td>
-                <td th:text="${user.email}"></td>
+                <td th:text="${user.id}" class="text-center"></td>
+                <td th:text="${user.name}" class="text-center"></td>
+                <td th:text="${user.email}" class="text-center"></td>
             </tr>
             </tbody>
         </table>

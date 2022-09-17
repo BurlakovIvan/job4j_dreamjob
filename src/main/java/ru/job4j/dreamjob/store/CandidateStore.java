@@ -18,11 +18,11 @@ public class CandidateStore {
 
     private CandidateStore() {
         int id = atomicInteger.incrementAndGet();
-        candidates.put(id, new Candidate(id, "Junior", "Junior Java Developer", null));
+        candidates.put(id, new Candidate(id, "Junior", "Junior Java Developer", null, null));
         id = atomicInteger.incrementAndGet();
-        candidates.put(id, new Candidate(id, "Middle", "Middle Java Developer", null));
+        candidates.put(id, new Candidate(id, "Middle", "Middle Java Developer", null, null));
         id = atomicInteger.incrementAndGet();
-        candidates.put(id, new Candidate(id, "Senior", "Senior Java Developer", null));
+        candidates.put(id, new Candidate(id, "Senior", "Senior Java Developer", null, null));
     }
 
     public void update(Candidate candidate) {

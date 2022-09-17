@@ -39,12 +39,13 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Ред.</th>
-                <th scope="col">ФИО</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Дата создания</th>
-                <th scope="col">Фото</th>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="text-center">Ред.</th>
+                <th scope="col" class="text-center">ФИО</th>
+                <th scope="col" class="text-center">Описание</th>
+                <th scope="col" class="text-center">Дата создания</th>
+                <th scope="col" class="text-center">Город проживания</th>
+                <th scope="col" class="text-center">Фото</th>
             </tr>
             </thead>
             <tbody>
@@ -54,13 +55,14 @@
                     <a th:href="@{|/formUpdateCandidate/${candidate.id}|}">
                         <i class="fa fa-edit"></i>
                     </a>
-                <td th:text="${candidate.name}" />
-                <td th:text="${candidate.desc}" />
-                <td th:text="${candidate.created}" />
+                <td th:text="${candidate.name}" class="text-center"/>
+                <td th:text="${candidate.desc}" class="text-center"/>
+                <td th:text="${#temporals.format(candidate.created, 'dd-MM-yyyy HH:mm')}" class="text-center"/>
+                <td th:text="${candidate.city != null} ? ${candidate.city.name} : 'null value!'" class="text-center"/>
                 </td>
                 <td>
                     <img th:width="150" th:high="150" th:src="@{|/photoCandidate/${candidate.id}|}">
-                    <span th:text="${candidate.name}"></span>
+                    <span th:text="${candidate.name}" class="text-center"></span>
                 </td>
             </tr>
             </tbody>
