@@ -9,7 +9,7 @@ public class Candidate {
 
     private String desc;
 
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 
     private City city;
 
@@ -18,16 +18,16 @@ public class Candidate {
     public Candidate() { }
 
     public Candidate(int id, String name, String desc, City city, byte[] photo) {
-        this(id, name, desc, LocalDateTime.now(), city, photo);
-    }
-
-    public Candidate(int id, String name, String desc, LocalDateTime created, City city, byte[] photo) {
         this.id = id;
         this.name = name;
         this.desc = desc;
-        this.created = created;
         this.city = city;
         this.photo = photo;
+    }
+
+    public Candidate(int id, String name, String desc, LocalDateTime created, City city, byte[] photo) {
+        this(id, name, desc, city, photo);
+        this.created = created;
     }
 
     public int getId() {
