@@ -44,18 +44,21 @@ public class UserController {
         if (regUser.isEmpty()) {
             return "redirect:/fail";
         }
-        return "redirect:/users";
+        return "redirect:/index";
     }
 
     @GetMapping("/fail")
     public String failRegistration(Model model) {
+        User userSession = new User();
+        userSession.setName("Гость");
+        model.addAttribute("user", userSession);
         model.addAttribute("message", "Пользователь с такой почтой уже существует");
         return "fail";
     }
 
     @PostMapping("/failRedirect")
     public String failRedirect(Model model) {
-        return "redirect:/users";
+        return "redirect:/formAddUser";
     }
 
     @GetMapping("/loginPage")
